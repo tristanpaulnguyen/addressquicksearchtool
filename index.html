@@ -117,34 +117,41 @@
       </div>
       <script>
         function generateLinks() {
-          var input = document.getElementById('input').value;
-          var addresses = input.split('\n');
-          var resultDiv = document.getElementById('result');
-          resultDiv.innerHTML = '';
-          for (var i = 0; i < addresses.length; i++) {
-            var address = addresses[i].trim();
-            if (address !== '') {
-              var link = 'www.instantstreetview.com/s/' + encodeURIComponent(address);
-              var linkElement = document.createElement('a');
-              linkElement.href = 'https://' + link;
-              linkElement.textContent = link;
-              linkElement.target = '_blank';
-      
-              // Add an event listener to the link
-              linkElement.addEventListener('click', function() {
-                // Change the color of the link when clicked
-                this.style.color = '#2f2f2f'; // black color
-                // Prevents the event from affecting parent elements
-                event.stopPropagation();
-              });
-      
-              var linkItem = document.createElement('div');
-              linkItem.classList.add('link-item');
-              linkItem.appendChild(linkElement);
-              resultDiv.appendChild(linkItem);
-            }
-          }
-        }
+  var input = document.getElementById('input').value;
+  var addresses = input.split('\n');
+  var resultDiv = document.getElementById('result');
+  resultDiv.innerHTML = '';
+  for (var i = 0; i < addresses.length; i++) {
+    var address = addresses[i].trim();
+    if (address !== '') {
+      // split the address by '/', encode the parts separately, then join them with '/'
+      var addressParts = address.split('/');
+      for (var j = 0; j < addressParts.length; j++) {
+        addressParts[j] = encodeURIComponent(addressParts[j]);
+      }
+      var encodedAddress = addressParts.join('/');
+      var link = 'www.instantstreetview.com/s/' + encodedAddress;
+      var linkElement = document.createElement('a');
+      linkElement.href = 'https://' + link;
+      linkElement.textContent = link;
+      linkElement.target = '_blank';
+
+      // Add an event listener to the link
+      linkElement.addEventListener('click', function() {
+        // Change the color of the link when clicked
+        this.style.color = '#2f2f2f'; // black color
+        // Prevents the event from affecting parent elements
+        event.stopPropagation();
+      });
+
+      var linkItem = document.createElement('div');
+      linkItem.classList.add('link-item');
+      linkItem.appendChild(linkElement);
+      resultDiv.appendChild(linkItem);
+    }
+  }
+}
+
       </script>
       
     </body>
